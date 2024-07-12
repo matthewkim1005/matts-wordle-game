@@ -43,8 +43,7 @@
 
 // (Extra): Scoreboard: Keeps track of words guessed wrong/right.
 // (Extra): Sound effects.
-// (Extra): Making it harder with more than 5 letters.
 
 //------------------------------------------------------------------------------------------------------------------
 
-const fiveLetterWords = require('script-files/5-letter-words.js')   
+fiveLetterWords = require('./script-files/5-letter-words.js');

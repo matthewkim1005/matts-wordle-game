@@ -5757,3 +5757,5 @@ const fiveLetterWords = [
     'biffy',
     'pupal'
   ]
+
+  module.exports = fiveLetterWords;
