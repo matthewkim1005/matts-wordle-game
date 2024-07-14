@@ -46,4 +46,51 @@
 
 //------------------------------------------------------------------------------------------------------------------
 
-fiveLetterWords = require('./script-files/5-letter-words.js');
+// fiveLetterWords = require('./script-files/5-letter-words.js');const letter = document.querySelector(".letter-1")
+const keys = document.querySelectorAll(".key");
+const gameGrid = document.querySelector(".game-grid")
+const flipLetter = [
+    { transform: "rotateY(180deg)" },
+  ];
+  
+const flipTiming = {
+    duration: 500,
+    iterations: 1,
+};
+
+let randomWord = '';
+let userInput = [];
+
+//creates a div for each row and column
+for (let r = 0; r < 6; r++) {
+    for (let c = 0; c < 5; c++) {
+      const letter = document.createElement('div');
+      letter.classList.add('letter');
+      gameGrid.appendChild(letter);
+    //   letter.append(r);
+    }
+  }
+// gameGrid.forEach((gridBox) => console.log(gridBox.innerHTML));
+console.dir(gameGrid.children);
+
+document.addEventListener('keypress', (event) => {
+    userInput += event.key;
+    //appends sets the childNode's letter to the inputed key
+    gameGrid.childNodes[userInput.length-1].innerHTML = event.key;
+    if (userInput.length === 5) {
+        checkWord(userInput);
+    }
+});
+
+keys.forEach((key) => {
+    key.addEventListener('click', (event) => {
+    });
+  });
+
+  function checkWord(guess) {
+    gameGrid.childNodes[0].animate(flipLetter, flipTiming);
+    gameGrid.childNodes[1].animate(flipLetter, flipTiming);
+    gameGrid.childNodes[2].animate(flipLetter, flipTiming);
+    gameGrid.childNodes[3].animate(flipLetter, flipTiming);
+    gameGrid.childNodes[4].animate(flipLetter, flipTiming);
+  }

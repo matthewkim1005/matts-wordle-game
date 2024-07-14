@@ -8,8 +8,10 @@ h1 {
 
 .game-grid {
     display: grid;
-    grid-template-columns: 70px 70px 70px 70px 70px; /*letters*/
-    grid-template-rows: 70px 70px 70px 70px 70px 70px; /*tries*/
+    /* grid-template-columns: 70px 70px 70px 70px 70px; letters */
+    /* grid-template-rows: 70px 70px 70px 70px 70px 70px; tries */
+    grid-template-rows: repeat(6, 70px);
+    grid-template-columns: repeat(5, 70px);
     justify-content: center;
 }
 
@@ -31,6 +33,11 @@ h1 {
     text-align: center;
     font-size: 25px;
     margin: 5px;
+}
+
+.key:hover {
+    margin: 3px;
+    text-decoration: underline;
 }
 
 /* row-start / col-start / row-end / col-end */
@@ -57,7 +64,7 @@ h1 {
 .top-row {
     display: grid;
     margin-top: 5%;
-    grid-template-columns: 55px 55px 55px 55px 55px 55px 55px 55px 55px 55px;
+    grid-template-columns: 55px 55px 55px 55px 55px 55px 55px 55px 55px 55px 55px;
     grid-template-rows: 55px;
     justify-content: center;
 }
@@ -73,4 +80,12 @@ h1 {
     grid-template-columns: 55px 55px 55px 55px 55px 55px 55px;
     grid-template-rows: 55px;
     justify-content: center;
+}
+
+.clear-key {
+    font-size: 100%;
+}
+
+.delay {
+    animation-delay: -2s;
 }
