@@ -58,6 +58,30 @@ const flipTiming = {
     iterations: 1,
 };
 
+const flipTiming2 = {
+    duration: 500,
+    delay: 250,
+    iterations: 1,
+};
+
+const flipTiming3 = {
+    duration: 500,
+    delay: 500,
+    iterations: 1,
+};
+
+const flipTiming4 = {
+    duration: 500,
+    delay: 750,
+    iterations: 1,
+};
+
+const flipTiming5 = {
+    duration: 500,
+    delay: 1000,
+    iterations: 1,
+};
+
 let randomWord = '';
 let userInput = [];
 
@@ -89,8 +113,8 @@ keys.forEach((key) => {
 
   function checkWord(guess) {
     gameGrid.childNodes[0].animate(flipLetter, flipTiming);
-    gameGrid.childNodes[1].animate(flipLetter, flipTiming);
-    gameGrid.childNodes[2].animate(flipLetter, flipTiming);
-    gameGrid.childNodes[3].animate(flipLetter, flipTiming);
-    gameGrid.childNodes[4].animate(flipLetter, flipTiming);
+    gameGrid.childNodes[1].animate(flipLetter, flipTiming2);
+    gameGrid.childNodes[2].animate(flipLetter, flipTiming3);
+    gameGrid.childNodes[3].animate(flipLetter, flipTiming4);
+    gameGrid.childNodes[4].animate(flipLetter, flipTiming5);
   }
