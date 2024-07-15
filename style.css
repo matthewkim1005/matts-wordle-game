@@ -89,3 +89,15 @@ h1 {
 .delay {
     animation-delay: -2s;
 }
+
+.correct {
+    background-color: green;
+}
+
+.wrong {
+    background-color: gray;
+}
+
+.containsLetter {
+    background-color: yellow;
+}

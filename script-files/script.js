@@ -46,7 +46,14 @@
 
 //------------------------------------------------------------------------------------------------------------------
 
-// fiveLetterWords = require('./script-files/5-letter-words.js');const letter = document.querySelector(".letter-1")
+import { fiveLetterWords } from './5-letter-words.js';
+// fiveLetterWords = require('./5-letter-words.js');
+
+// Variables -------------------------------------------------------------------------------------------------------
+
+let randomWord = '';
+let userInput = [];
+
 const keys = document.querySelectorAll(".key");
 const gameGrid = document.querySelector(".game-grid")
 const flipLetter = [
@@ -82,36 +89,60 @@ const flipTiming5 = {
     iterations: 1,
 };
 
-let randomWord = '';
-let userInput = [];
+// Code -------------------------------------------------------------------------------------------------------------
 
-//creates a div for each row and column
-for (let r = 0; r < 6; r++) {
-    for (let c = 0; c < 5; c++) {
-      const letter = document.createElement('div');
-      letter.classList.add('letter');
-      gameGrid.appendChild(letter);
-    //   letter.append(r);
-    }
-  }
-// gameGrid.forEach((gridBox) => console.log(gridBox.innerHTML));
-console.dir(gameGrid.children);
+init();
 
-document.addEventListener('keypress', (event) => {
-    userInput += event.key;
-    //appends sets the childNode's letter to the inputed key
-    gameGrid.childNodes[userInput.length-1].innerHTML = event.key;
-    if (userInput.length === 5) {
-        checkWord(userInput);
-    }
-});
+document.addEventListener('keypress', keyboardInput, true);
 
 keys.forEach((key) => {
     key.addEventListener('click', (event) => {
     });
   });
 
+// Functions --------------------------------------------------------------------------------------------------------  
+
+  function init() {
+    //select random word from the array of 5-letter-words
+    randomWord = fiveLetterWords[getRandomIndex(fiveLetterWords.length)];
+
+    //then create the grid for the wordle game
+    console.log(randomWord);
+    for (let r = 0; r < 6; r++) {
+      for (let c = 0; c < 5; c++) {
+        //creates a div for each row and column
+        const letter = document.createElement('div');
+        letter.classList.add('letter');
+        gameGrid.appendChild(letter);
+      }
+    }
+  }
+
+  function getRandomIndex(max) {
+    return Math.floor(Math.random() * max);
+  }
+
+  function keyboardInput(event) {
+    userInput += event.key;
+    //appends sets the childNode's letter to the inputed key
+    gameGrid.childNodes[userInput.length-1].innerHTML = event.key;
+    if (userInput.length === 5) {
+        checkWord(userInput);
+    }
+  }
+
+//   function stopInput(event) {
+//     document.removeEventListener('keypress', keyboardInput(event), false);
+//   }
+
   function checkWord(guess) {
+    // setTimeout(stopInput, 1000);
+    if (userInput === randomWord) {
+      gameGrid.childNodes[0].classList.add('correct');
+      gameGrid.childNodes[1].classList.add('containsLetter');
+      gameGrid.childNodes[2].classList.add('wrong');
+    }
+    
     gameGrid.childNodes[0].animate(flipLetter, flipTiming);
     gameGrid.childNodes[1].animate(flipLetter, flipTiming2);
     gameGrid.childNodes[2].animate(flipLetter, flipTiming3);

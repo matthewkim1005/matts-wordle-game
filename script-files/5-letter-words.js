@@ -5758,4 +5758,5 @@ const fiveLetterWords = [
     'pupal'
   ]
 
-  // module.exports = fiveLetterWords;
+// module.exports = fiveLetterWords;
+export { fiveLetterWords };
