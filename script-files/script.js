@@ -52,9 +52,17 @@ import { fiveLetterWords } from './5-letter-words.js';
 // Variables -------------------------------------------------------------------------------------------------------
 
 let randomWord = '';
+let currentWord = '';
 let userInput = [];
+let guessedLetters = [];
+let correctLetters = [];
+let wrongLetters = [];
+let containsLetters = [];
 let numGuesses = 0;
+let won = false;
+let finished = false;
 
+const title = document.querySelector('h1');
 const keys = document.querySelectorAll(".key");
 const gameGrid = document.querySelector(".game-grid")
 const flipLetter = [
@@ -105,10 +113,19 @@ keys.forEach((key) => {
 
   function init() {
     //select random word from the array of 5-letter-words
+    randomWord = '';
+    userInput = [];
+    currentWord = '';
+    guessedLetters = [];
+    correctLetters = [];
+    wrongLetters = [];
+    containsLetters = [];
+    numGuesses = 0;
+    
     randomWord = fiveLetterWords[getRandomIndex(fiveLetterWords.length)];
+    console.log(randomWord);
 
     //then create the grid for the wordle game
-    console.log(randomWord);
     for (let r = 0; r < 6; r++) {
       for (let c = 0; c < 5; c++) {
         //creates a div for each row and column
@@ -128,7 +145,7 @@ keys.forEach((key) => {
     //appends sets the childNode's letter to the inputed key
     gameGrid.childNodes[userInput.length-1].innerHTML = event.key;
     if (userInput.length % 5 === 0) {
-        checkWord(userInput);
+        checkWord();
     }
   }
 
@@ -136,18 +153,38 @@ keys.forEach((key) => {
 //     document.removeEventListener('keypress', keyboardInput(event), false);
 //   }
 
-  function checkWord(guess) {
-    // setTimeout(stopInput, 1000);
+  function checkWord() {
     let index = numGuesses * 5;
+    let tempWord = randomWord;
+    currentWord = userInput.substr(userInput.length - 5);
+
     for (let i = 0; i < 5; i++) {
       console.log(index + i);
-      if (userInput.charAt(index + i) === randomWord.charAt(i)) {
+      if (currentWord === tempWord) {
         gameGrid.childNodes[index + i].classList.add('correct');
-      } else if (userInput.charAt(index + i) !== randomWord.charAt(i) && !randomWord.includes(userInput.charAt(index + i))) {
-        gameGrid.childNodes[index + i].classList.add('wrong');
-      } else {
-        gameGrid.childNodes[index + i].classList.add('containsLetter');
+        won = true;
+        finished = true;
       }
+      //correct letters
+      else if (userInput.charAt(index + i) === tempWord.charAt(i)) {
+        gameGrid.childNodes[index + i].classList.add('correct');
+        correctLetters += userInput.charAt(index + i);
+      } 
+      //wrong letters
+      else if (userInput.charAt(index + i) !== tempWord.charAt(i) && !tempWord.includes(userInput.charAt(index + i))) {
+        gameGrid.childNodes[index + i].classList.add('wrong');
+        wrongLetters += userInput.charAt(index + i);
+      } 
+      // contains letter
+      else {
+        gameGrid.childNodes[index + i].classList.add('containsLetter');
+        containsLetters += userInput.charAt(index + i);
+      }
+      guessedLetters += userInput.charAt(index + i);
+      console.log(`correct: ${correctLetters}`);
+      console.log(`wrong: ${wrongLetters}`);
+      console.log(`contains: ${containsLetters}`);
+      console.log(`guessed: ${guessedLetters}`);
 
       //animation for the word checking
       if ((index + i) % 5 === 0) {
@@ -163,10 +200,27 @@ keys.forEach((key) => {
       }
     }
     numGuesses++;
-  
-    // gameGrid.childNodes[0].animate(flipLetter, flipTiming);
-    // gameGrid.childNodes[1].animate(flipLetter, flipTiming2);
-    // gameGrid.childNodes[2].animate(flipLetter, flipTiming3);
-    // gameGrid.childNodes[3].animate(flipLetter, flipTiming4);
-    // gameGrid.childNodes[4].animate(flipLetter, flipTiming5);
+    checkWinner();
+  }
+
+  function correctGuess() {
+
+  }
+
+  function wrongGuess() {
+
+  }
+
+  function containsGuess() {
+
+  }
+
+  function checkWinner() {
+    if (won) {
+      const winMessage = document.createElement('div');
+      winMessage.innerHTML = 'You Win!';
+      title.appendChild(winMessage);
+    } else {
+      return;
+    }
   }
