@@ -53,6 +53,7 @@ import { fiveLetterWords } from './5-letter-words.js';
 
 let randomWord = '';
 let userInput = [];
+let numGuesses = 0;
 
 const keys = document.querySelectorAll(".key");
 const gameGrid = document.querySelector(".game-grid")
@@ -126,7 +127,7 @@ keys.forEach((key) => {
     userInput += event.key;
     //appends sets the childNode's letter to the inputed key
     gameGrid.childNodes[userInput.length-1].innerHTML = event.key;
-    if (userInput.length === 5) {
+    if (userInput.length % 5 === 0) {
         checkWord(userInput);
     }
   }
@@ -137,15 +138,35 @@ keys.forEach((key) => {
 
   function checkWord(guess) {
     // setTimeout(stopInput, 1000);
-    if (userInput === randomWord) {
-      gameGrid.childNodes[0].classList.add('correct');
-      gameGrid.childNodes[1].classList.add('containsLetter');
-      gameGrid.childNodes[2].classList.add('wrong');
+    let index = numGuesses * 5;
+    for (let i = 0; i < 5; i++) {
+      console.log(index + i);
+      if (userInput.charAt(index + i) === randomWord.charAt(i)) {
+        gameGrid.childNodes[index + i].classList.add('correct');
+      } else if (userInput.charAt(index + i) !== randomWord.charAt(i) && !randomWord.includes(userInput.charAt(index + i))) {
+        gameGrid.childNodes[index + i].classList.add('wrong');
+      } else {
+        gameGrid.childNodes[index + i].classList.add('containsLetter');
+      }
+
+      //animation for the word checking
+      if ((index + i) % 5 === 0) {
+        gameGrid.childNodes[index + i].animate(flipLetter, flipTiming);
+      } else if ((index + i) % 5 === 1) {
+        gameGrid.childNodes[index + i].animate(flipLetter, flipTiming2);
+      } else if ((index + i) % 5 === 2) {
+        gameGrid.childNodes[index + i].animate(flipLetter, flipTiming3);
+      } else if ((index + i) % 5 === 3) {
+        gameGrid.childNodes[index + i].animate(flipLetter, flipTiming4);
+      } else if ((index + i) % 5 === 4) {
+        gameGrid.childNodes[index + i].animate(flipLetter, flipTiming5);
+      }
     }
-    
-    gameGrid.childNodes[0].animate(flipLetter, flipTiming);
-    gameGrid.childNodes[1].animate(flipLetter, flipTiming2);
-    gameGrid.childNodes[2].animate(flipLetter, flipTiming3);
-    gameGrid.childNodes[3].animate(flipLetter, flipTiming4);
-    gameGrid.childNodes[4].animate(flipLetter, flipTiming5);
+    numGuesses++;
+  
+    // gameGrid.childNodes[0].animate(flipLetter, flipTiming);
+    // gameGrid.childNodes[1].animate(flipLetter, flipTiming2);
+    // gameGrid.childNodes[2].animate(flipLetter, flipTiming3);
+    // gameGrid.childNodes[3].animate(flipLetter, flipTiming4);
+    // gameGrid.childNodes[4].animate(flipLetter, flipTiming5);
   }
