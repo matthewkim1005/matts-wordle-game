@@ -172,10 +172,15 @@ keys.forEach((key) => {
     //appends sets the childNode's letter to the inputed key
     if (event.key === 'Backspace') {
       clearButton(event);
-    } else if (event.key === 'Shift') {
+    } 
+    //catches non-letter keys
+    else if (event.key === 'Shift' || event.key === 'Enter' || event.key === 'Alt' || event.key === 'Meta' || event.key === 'Command' 
+      || event.key === 'Control' || event.key === 'Tab' || event.key === '\\' || event.key === ' ' || event.key === 'ArrowRight'
+      || event.key === 'ArrowLeft' || event.key === 'ArrowDown' || event.key === 'ArrowUp' || event.key === 'Escape') {
       return;
     } else {
       userInput += event.key;
+      console.log(event);
       gameGrid.childNodes[userInput.length-1].innerHTML = event.key.toUpperCase();
       if (userInput.length % 5 === 0) {
         if (wordExists(userInput.substr(userInput.length - 5))) {
