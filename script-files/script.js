@@ -102,16 +102,10 @@ const flipTiming5 = {
     iterations: 1,
 };
 
-const shake = {
-
-}
-
 // Keyboard Code -------------------------------------------------------------------------------------------------------------
 
 init();
 render();
-
-resetButton.addEventListener('click', reset);
 
 keys.forEach((key) => {
     key.addEventListener('click', (event) => {
@@ -123,6 +117,7 @@ keys.forEach((key) => {
   function init() {
     //select random word from the array of 5-letter-words
     document.addEventListener('keyup', keyboardInput, true);
+    resetButton.addEventListener('click', reset);
     randomWord = '';
     userInput = [];
     currentWord = '';
@@ -180,7 +175,6 @@ keys.forEach((key) => {
       return;
     } else {
       userInput += event.key;
-      console.log(event);
       gameGrid.childNodes[userInput.length-1].innerHTML = event.key.toUpperCase();
       if (userInput.length % 5 === 0) {
         if (wordExists(userInput.substr(userInput.length - 5))) {
@@ -241,7 +235,9 @@ keys.forEach((key) => {
     }
     numGuesses++;
     checkWinner();
+    updateKeyboard();
   }
+
   //the letter is in the correct index.
   function correctGuess(i, index) {
     gameGrid.childNodes[index + i].classList.add('correct');
@@ -269,7 +265,6 @@ keys.forEach((key) => {
 
   function wordExists(userWord) {
     if(fiveLetterWords.includes(userWord)) {
-      console.log(userWord);
       return true;
     } else {
       return false;
@@ -289,6 +284,33 @@ keys.forEach((key) => {
       console.log(userInput);
       gameGrid.childNodes[userInput.length].innerHTML = '';
     } 
+  }
+
+  function updateKeyboard() {
+  //   guessedLetters = [];
+  //   correctLetters = [];
+  //   wrongLetters = [];
+  //   containsLetters = [];
+    keys.forEach(key => {
+      //checks the correct letters
+      for (let i = 0; i < correctLetters.length ; i++) {
+        if (correctLetters[i].toUpperCase().includes(key.innerHTML)){
+          key.classList.add("correct");
+        }
+      }
+      //checks the wrong letters
+      for (let i = 0; i < wrongLetters.length ; i++) {
+        if (wrongLetters[i].toUpperCase().includes(key.innerHTML)){
+          key.classList.add("wrong");
+        }
+      }
+      //checks the contains letters
+      for (let i = 0; i < containsLetters.length ; i++) {
+        if (containsLetters[i].toUpperCase().includes(key.innerHTML)){
+          key.classList.add("containsLetter");
+        }
+      }
+    })
   }
 
   //animates the boxes with a shake if they are wrong
@@ -318,3 +340,7 @@ keys.forEach((key) => {
     gameGrid.childNodes[userInput.length-5].classList.remove("apply-shake");
     });
   } 
+
+  //make onscreen keyboard work
+  //add help menu
+  
