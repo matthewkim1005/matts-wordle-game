@@ -109,6 +109,22 @@ render();
 
 keys.forEach((key) => {
     key.addEventListener('click', (event) => {
+      if (key.innerHTML === 'Clear') {
+        clearButton(event);
+      } else {
+        userInput += key.innerHTML;
+        console.log(userInput);
+        gameGrid.childNodes[userInput.length-1].innerHTML = key.innerHTML.toUpperCase();
+        if (userInput.length % 5 === 0) {
+          if (wordExists(userInput.substr(userInput.length - 5))) {
+            checkWord();
+          } else {
+            winMessage.innerHTML = 'Invalid word! Please try again';
+            shakeBoxes();
+            console.log(userInput.length);
+          }
+        }
+      }
     });
   });
 
@@ -130,7 +146,7 @@ keys.forEach((key) => {
     finished = false;
     clear();
     
-    randomWord = fiveLetterWords[getRandomIndex(fiveLetterWords.length)];
+    randomWord = fiveLetterWords[getRandomIndex(fiveLetterWords.length)].toUpperCase();
     console.log(randomWord);
   }
 
@@ -153,8 +169,15 @@ keys.forEach((key) => {
       gameGrid.childNodes[child].classList.remove("correct");
       gameGrid.childNodes[child].classList.remove("wrong");
       gameGrid.childNodes[child].classList.remove("containsLetter");
-  }
-}
+    }
+
+    //removes the classlists to reset the board
+    keys.forEach(key => {
+      key.classList.remove("correct");
+      key.classList.remove("wrong");
+      key.classList.remove("containsLetter");
+      });
+    }
 
   function getRandomIndex(max) {
     return Math.floor(Math.random() * max);
@@ -188,10 +211,6 @@ keys.forEach((key) => {
     }
   }
 
-//   function stopInput(event) {
-//     document.removeEventListener('keypress', keyboardInput(event), false);
-//   }
-
   function checkWord() {
     winMessage.innerHTML = '';
     // let index = numGuesses * 5;
@@ -205,6 +224,7 @@ keys.forEach((key) => {
         gameGrid.childNodes[index + i].classList.add('correct');
         won = true;
         finished = true;
+        correctGuess(i, index);
       }
       //correct letters
       else if (userInput.charAt(index + i) === tempWord.charAt(i)) {
@@ -264,7 +284,7 @@ keys.forEach((key) => {
   }
 
   function wordExists(userWord) {
-    if(fiveLetterWords.includes(userWord)) {
+    if(fiveLetterWords.includes(userWord.toLowerCase())) {
       return true;
     } else {
       return false;
@@ -287,10 +307,6 @@ keys.forEach((key) => {
   }
 
   function updateKeyboard() {
-  //   guessedLetters = [];
-  //   correctLetters = [];
-  //   wrongLetters = [];
-  //   containsLetters = [];
     keys.forEach(key => {
       //checks the correct letters
       for (let i = 0; i < correctLetters.length ; i++) {
