@@ -102,7 +102,11 @@ const flipTiming5 = {
     iterations: 1,
 };
 
-// Code -------------------------------------------------------------------------------------------------------------
+const shake = {
+
+}
+
+// Keyboard Code -------------------------------------------------------------------------------------------------------------
 
 init();
 render();
@@ -114,7 +118,7 @@ keys.forEach((key) => {
     });
   });
 
-// Functions --------------------------------------------------------------------------------------------------------  
+// Initialize Functions --------------------------------------------------------------------------------------------------------  
 
   function init() {
     //select random word from the array of 5-letter-words
@@ -161,18 +165,13 @@ keys.forEach((key) => {
     return Math.floor(Math.random() * max);
   }
 
+  //Functions --------------------------------------------------------------------------------------------------------  
+
   function keyboardInput(event) {
     // console.log(event);
     //appends sets the childNode's letter to the inputed key
     if (event.key === 'Backspace') {
-      if (userInput.length%5 === 0 && wordExists(userInput.substr(userInput.length - 5))) {
-        return;
-      } else {
-        winMessage.innerHTML = '';
-        userInput = userInput.slice(0, userInput.length-1);
-        console.log(userInput);
-        gameGrid.childNodes[userInput.length].innerHTML = '';
-      }
+      clearButton(event);
     } else if (event.key === 'Shift') {
       return;
     } else {
@@ -183,6 +182,8 @@ keys.forEach((key) => {
           checkWord();
         } else {
           winMessage.innerHTML = 'Invalid word! Please try again';
+          shakeBoxes();
+          console.log(userInput.length);
         }
       }
     }
@@ -194,12 +195,13 @@ keys.forEach((key) => {
 
   function checkWord() {
     winMessage.innerHTML = '';
-    let index = numGuesses * 5;
+    // let index = numGuesses * 5;
+    let index = userInput.length - 5;
     let tempWord = randomWord;
     currentWord = userInput.substr(userInput.length - 5);
 
     for (let i = 0; i < 5; i++) {
-      console.log(index + i);
+      // console.log(index + i);
       if (currentWord === tempWord) {
         gameGrid.childNodes[index + i].classList.add('correct');
         won = true;
@@ -218,10 +220,6 @@ keys.forEach((key) => {
         containsGuess(i, index);
       }
       guessedLetters += userInput.charAt(index + i);
-      // console.log(`correct: ${correctLetters}`);
-      // console.log(`wrong: ${wrongLetters}`);
-      // console.log(`contains: ${containsLetters}`);
-      // console.log(`guessed: ${guessedLetters}`);
 
       //animation for the word checking
       if ((index + i) % 5 === 0) {
@@ -277,6 +275,41 @@ keys.forEach((key) => {
     init();
   }
 
-  function clearLine() {
-
+  function clearButton(event) {
+    if (userInput.length%5 === 0 && wordExists(userInput.substr(userInput.length - 5))) {
+      return;
+    } else {
+      winMessage.innerHTML = '';
+      userInput = userInput.slice(0, userInput.length-1);
+      console.log(userInput);
+      gameGrid.childNodes[userInput.length].innerHTML = '';
+    } 
   }
+
+  //animates the boxes with a shake if they are wrong
+  function shakeBoxes() {
+    gameGrid.childNodes[userInput.length-1].classList.add("apply-shake");
+    gameGrid.childNodes[userInput.length-1].addEventListener("animationend", (e) => {
+    gameGrid.childNodes[userInput.length-1].classList.remove("apply-shake");
+    });
+
+    gameGrid.childNodes[userInput.length-2].classList.add("apply-shake");
+    gameGrid.childNodes[userInput.length-2].addEventListener("animationend", (e) => {
+    gameGrid.childNodes[userInput.length-2].classList.remove("apply-shake");
+    });
+
+    gameGrid.childNodes[userInput.length-3].classList.add("apply-shake");
+    gameGrid.childNodes[userInput.length-3].addEventListener("animationend", (e) => {
+    gameGrid.childNodes[userInput.length-3].classList.remove("apply-shake");
+    });
+
+    gameGrid.childNodes[userInput.length-4].classList.add("apply-shake");
+    gameGrid.childNodes[userInput.length-4].addEventListener("animationend", (e) => {
+    gameGrid.childNodes[userInput.length-4].classList.remove("apply-shake");
+    });
+
+    gameGrid.childNodes[userInput.length-5].classList.add("apply-shake");
+    gameGrid.childNodes[userInput.length-5].addEventListener("animationend", (e) => {
+    gameGrid.childNodes[userInput.length-5].classList.remove("apply-shake");
+    });
+  } 
