@@ -106,3 +106,9 @@ h1 {
     display: block;
     margin: auto;
 }
+
+.message {
+    display: block;
+    margin: auto;
+    text-align: center;
+}

@@ -67,7 +67,7 @@ const keys = document.querySelectorAll(".key");
 const gameGrid = document.querySelector(".game-grid")
 const keyboard = document.querySelector('.keyboard');
 const resetButton = document.querySelector('.reset');
-const winMessage = document.createElement('div');
+const winMessage = document.querySelector('.message');
 
 const flipLetter = [
     { transform: "rotateY(180deg)" },
@@ -107,7 +107,6 @@ const flipTiming5 = {
 init();
 render();
 
-document.addEventListener('keypress', keyboardInput, true);
 resetButton.addEventListener('click', reset);
 
 keys.forEach((key) => {
@@ -119,7 +118,7 @@ keys.forEach((key) => {
 
   function init() {
     //select random word from the array of 5-letter-words
-    document.addEventListener('keypress', keyboardInput, true);
+    document.addEventListener('keyup', keyboardInput, true);
     randomWord = '';
     userInput = [];
     currentWord = '';
@@ -163,11 +162,29 @@ keys.forEach((key) => {
   }
 
   function keyboardInput(event) {
-    userInput += event.key;
+    // console.log(event);
     //appends sets the childNode's letter to the inputed key
-    gameGrid.childNodes[userInput.length-1].innerHTML = event.key;
-    if (userInput.length % 5 === 0) {
-        checkWord();
+    if (event.key === 'Backspace') {
+      if (userInput.length%5 === 0 && wordExists(userInput.substr(userInput.length - 5))) {
+        return;
+      } else {
+        winMessage.innerHTML = '';
+        userInput = userInput.slice(0, userInput.length-1);
+        console.log(userInput);
+        gameGrid.childNodes[userInput.length].innerHTML = '';
+      }
+    } else if (event.key === 'Shift') {
+      return;
+    } else {
+      userInput += event.key;
+      gameGrid.childNodes[userInput.length-1].innerHTML = event.key.toUpperCase();
+      if (userInput.length % 5 === 0) {
+        if (wordExists(userInput.substr(userInput.length - 5))) {
+          checkWord();
+        } else {
+          winMessage.innerHTML = 'Invalid word! Please try again';
+        }
+      }
     }
   }
 
@@ -176,6 +193,7 @@ keys.forEach((key) => {
 //   }
 
   function checkWord() {
+    winMessage.innerHTML = '';
     let index = numGuesses * 5;
     let tempWord = randomWord;
     currentWord = userInput.substr(userInput.length - 5);
@@ -240,17 +258,25 @@ keys.forEach((key) => {
   function checkWinner() {
     if (won) {
       winMessage.innerHTML = `You won in ${numGuesses} attempt(s)!`;
-      title.appendChild(winMessage);
       document.removeEventListener('keypress', keyboardInput, true);
     } else {
       return;
     }
   }
 
-  function exists() {
-    
+  function wordExists(userWord) {
+    if(fiveLetterWords.includes(userWord)) {
+      console.log(userWord);
+      return true;
+    } else {
+      return false;
+    }
   }
 
   function reset() {
     init();
+  }
+
+  function clearLine() {
+
   }
