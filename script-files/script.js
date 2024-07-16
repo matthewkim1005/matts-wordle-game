@@ -65,6 +65,10 @@ let finished = false;
 const title = document.querySelector('h1');
 const keys = document.querySelectorAll(".key");
 const gameGrid = document.querySelector(".game-grid")
+const keyboard = document.querySelector('.keyboard');
+const resetButton = document.querySelector('.reset');
+const winMessage = document.createElement('div');
+
 const flipLetter = [
     { transform: "rotateY(180deg)" },
   ];
@@ -101,8 +105,10 @@ const flipTiming5 = {
 // Code -------------------------------------------------------------------------------------------------------------
 
 init();
+render();
 
 document.addEventListener('keypress', keyboardInput, true);
+resetButton.addEventListener('click', reset);
 
 keys.forEach((key) => {
     key.addEventListener('click', (event) => {
@@ -113,6 +119,7 @@ keys.forEach((key) => {
 
   function init() {
     //select random word from the array of 5-letter-words
+    document.addEventListener('keypress', keyboardInput, true);
     randomWord = '';
     userInput = [];
     currentWord = '';
@@ -121,20 +128,35 @@ keys.forEach((key) => {
     wrongLetters = [];
     containsLetters = [];
     numGuesses = 0;
+    won = false;
+    finished = false;
+    clear();
     
     randomWord = fiveLetterWords[getRandomIndex(fiveLetterWords.length)];
     console.log(randomWord);
+  }
 
+  function render() {
     //then create the grid for the wordle game
-    for (let r = 0; r < 6; r++) {
-      for (let c = 0; c < 5; c++) {
-        //creates a div for each row and column
-        const letter = document.createElement('div');
-        letter.classList.add('letter');
-        gameGrid.appendChild(letter);
+      for (let r = 0; r < 6; r++) {
+        for (let c = 0; c < 5; c++) {
+          //creates a div for each row and column
+          const letter = document.createElement('div');
+          letter.classList.add('letter');
+          gameGrid.appendChild(letter);
       }
     }
   }
+
+  function clear() {
+    winMessage.innerHTML = '';
+    for (let child = 0; child  < gameGrid.childElementCount; child++) {
+      gameGrid.childNodes[child].innerHTML = '';
+      gameGrid.childNodes[child].classList.remove("correct");
+      gameGrid.childNodes[child].classList.remove("wrong");
+      gameGrid.childNodes[child].classList.remove("containsLetter");
+  }
+}
 
   function getRandomIndex(max) {
     return Math.floor(Math.random() * max);
@@ -167,24 +189,21 @@ keys.forEach((key) => {
       }
       //correct letters
       else if (userInput.charAt(index + i) === tempWord.charAt(i)) {
-        gameGrid.childNodes[index + i].classList.add('correct');
-        correctLetters += userInput.charAt(index + i);
+        correctGuess(i, index);
       } 
       //wrong letters
       else if (userInput.charAt(index + i) !== tempWord.charAt(i) && !tempWord.includes(userInput.charAt(index + i))) {
-        gameGrid.childNodes[index + i].classList.add('wrong');
-        wrongLetters += userInput.charAt(index + i);
+        wrongGuess(i, index);
       } 
       // contains letter
       else {
-        gameGrid.childNodes[index + i].classList.add('containsLetter');
-        containsLetters += userInput.charAt(index + i);
+        containsGuess(i, index);
       }
       guessedLetters += userInput.charAt(index + i);
-      console.log(`correct: ${correctLetters}`);
-      console.log(`wrong: ${wrongLetters}`);
-      console.log(`contains: ${containsLetters}`);
-      console.log(`guessed: ${guessedLetters}`);
+      // console.log(`correct: ${correctLetters}`);
+      // console.log(`wrong: ${wrongLetters}`);
+      // console.log(`contains: ${containsLetters}`);
+      // console.log(`guessed: ${guessedLetters}`);
 
       //animation for the word checking
       if ((index + i) % 5 === 0) {
@@ -202,25 +221,36 @@ keys.forEach((key) => {
     numGuesses++;
     checkWinner();
   }
-
-  function correctGuess() {
-
+  //the letter is in the correct index.
+  function correctGuess(i, index) {
+    gameGrid.childNodes[index + i].classList.add('correct');
+    correctLetters += userInput.charAt(index + i);
   }
-
-  function wrongGuess() {
-
+  //the letter is not in the word at all
+  function wrongGuess(i, index) {
+    gameGrid.childNodes[index + i].classList.add('wrong');
+    wrongLetters += userInput.charAt(index + i);
   }
-
-  function containsGuess() {
-
+  //if the word contains the letter, but it is not in the correct index
+  function containsGuess(i, index) {
+    gameGrid.childNodes[index + i].classList.add('containsLetter');
+    containsLetters += userInput.charAt(index + i);
   }
 
   function checkWinner() {
     if (won) {
-      const winMessage = document.createElement('div');
-      winMessage.innerHTML = 'You Win!';
+      winMessage.innerHTML = `You won in ${numGuesses} attempt(s)!`;
       title.appendChild(winMessage);
+      document.removeEventListener('keypress', keyboardInput, true);
     } else {
       return;
     }
+  }
+
+  function exists() {
+    
+  }
+
+  function reset() {
+    init();
   }
