@@ -190,14 +190,14 @@ keys.forEach((key) => {
     //appends sets the childNode's letter to the inputed key
     if (event.key === 'Backspace') {
       clearButton(event);
-    } 
+    }
     //catches non-letter keys
     else if (event.key === 'Shift' || event.key === 'Enter' || event.key === 'Alt' || event.key === 'Meta' || event.key === 'Command' 
       || event.key === 'Control' || event.key === 'Tab' || event.key === '\\' || event.key === ' ' || event.key === 'ArrowRight'
       || event.key === 'ArrowLeft' || event.key === 'ArrowDown' || event.key === 'ArrowUp' || event.key === 'Escape') {
       return;
     } else {
-      userInput += event.key;
+      userInput += event.key.toUpperCase();
       gameGrid.childNodes[userInput.length-1].innerHTML = event.key.toUpperCase();
       if (userInput.length % 5 === 0) {
         if (wordExists(userInput.substr(userInput.length - 5))) {
@@ -205,7 +205,6 @@ keys.forEach((key) => {
         } else {
           winMessage.innerHTML = 'Invalid word! Please try again';
           shakeBoxes();
-          console.log(userInput.length);
         }
       }
     }
@@ -215,11 +214,10 @@ keys.forEach((key) => {
     winMessage.innerHTML = '';
     // let index = numGuesses * 5;
     let index = userInput.length - 5;
-    let tempWord = randomWord;
-    currentWord = userInput.substr(userInput.length - 5);
+    let tempWord = randomWord.toUpperCase();;
+    currentWord = userInput.substr(userInput.length - 5).toUpperCase();
 
     for (let i = 0; i < 5; i++) {
-      // console.log(index + i);
       if (currentWord === tempWord) {
         gameGrid.childNodes[index + i].classList.add('correct');
         won = true;
