@@ -113,7 +113,6 @@ keys.forEach((key) => {
         clearButton(event);
       } else {
         userInput += key.innerHTML;
-        console.log(userInput);
         gameGrid.childNodes[userInput.length-1].innerHTML = key.innerHTML.toUpperCase();
         if (userInput.length % 5 === 0) {
           if (wordExists(userInput.substr(userInput.length - 5))) {
@@ -121,7 +120,6 @@ keys.forEach((key) => {
           } else {
             winMessage.innerHTML = 'Invalid word! Please try again';
             shakeBoxes();
-            console.log(userInput.length);
           }
         }
       }
@@ -186,7 +184,6 @@ keys.forEach((key) => {
   //Functions --------------------------------------------------------------------------------------------------------  
 
   function keyboardInput(event) {
-    // console.log(event);
     //appends sets the childNode's letter to the inputed key
     if (event.key === 'Backspace') {
       clearButton(event);
@@ -194,7 +191,7 @@ keys.forEach((key) => {
     //catches non-letter keys
     else if (event.key === 'Shift' || event.key === 'Enter' || event.key === 'Alt' || event.key === 'Meta' || event.key === 'Command' 
       || event.key === 'Control' || event.key === 'Tab' || event.key === '\\' || event.key === ' ' || event.key === 'ArrowRight'
-      || event.key === 'ArrowLeft' || event.key === 'ArrowDown' || event.key === 'ArrowUp' || event.key === 'Escape') {
+      || event.key === 'ArrowLeft' || event.key === 'ArrowDown' || event.key === 'ArrowUp' || event.key === 'Escape' || event.key === 'F12') {
       return;
     } else {
       userInput += event.key.toUpperCase();
@@ -299,7 +296,6 @@ keys.forEach((key) => {
     } else {
       winMessage.innerHTML = '';
       userInput = userInput.slice(0, userInput.length-1);
-      console.log(userInput);
       gameGrid.childNodes[userInput.length].innerHTML = '';
     } 
   }
