@@ -1,7 +1,32 @@
 # matts-wordle-game
 HTML/JS/CSS Unit 1 Project: Wordle
 
-My Game: Wordle
+My Game: Wordle/Mattdle
+
+Decription: This is a recreate of the game wordle that you can play with just a mouse and/or keyboard.
+A random 5-letter word is chosen and the user has 6 attempts to try to guess the random word. If the word correctly matches the random word,
+the user wins!
+
+Reason I chose this game: Me and my friends used to play this everyday when it first came out and it was a fun little bonding experience we had together, so I decided to recreate it.
+
+Attributions:
+- https://developer.mozilla.org/en-US/
+- https://teamtreehouse.com/community/shake-effect-with-javascript-only
+- https://stackoverflow.com/
+- https://www.w3schools.com/
+- Stephanie Lee's word library of 5 letter words.
+
+Technologies used: JavaScript, HTML, and CSS.
+
+Future Enhancements:
+- Adding sound
+- Adding a scoreboard
+- Adding a dark mode
+- Adding more letter-ed words ex. 6 letters
+
+Screenshot/Logo: A screenshot of your app or a logo.
+
+Getting started: Include a link to your deployed game and any instructions you deem important. This should also contain a link to your planning materials.
 
 As a user, I want to be able to know how to play this game without any prior knowledge of the game.
 As a user, I want visual feedback on what letters I get correct, wrong and if the word contains the letter.
