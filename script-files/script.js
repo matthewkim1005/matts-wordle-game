@@ -60,12 +60,9 @@ let wrongLetters = [];
 let containsLetters = [];
 let numGuesses = 0;
 let won = false;
-let finished = false;
 
-const title = document.querySelector('h1');
 const keys = document.querySelectorAll(".key");
 const gameGrid = document.querySelector(".game-grid")
-const keyboard = document.querySelector('.keyboard');
 const resetButton = document.querySelector('.reset');
 const winMessage = document.querySelector('.message');
 
@@ -141,7 +138,6 @@ keys.forEach((key) => {
     containsLetters = [];
     numGuesses = 0;
     won = false;
-    finished = false;
     clear();
     
     randomWord = fiveLetterWords[getRandomIndex(fiveLetterWords.length)].toUpperCase();
@@ -218,7 +214,6 @@ keys.forEach((key) => {
       if (currentWord === tempWord) {
         gameGrid.childNodes[index + i].classList.add('correct');
         won = true;
-        finished = true;
         correctGuess(i, index);
       }
       //correct letters
@@ -249,6 +244,7 @@ keys.forEach((key) => {
       }
     }
     numGuesses++;
+    gameEnd();
     checkWinner();
     updateKeyboard();
   }
@@ -288,6 +284,14 @@ keys.forEach((key) => {
 
   function reset() {
     init();
+  }
+
+  function gameEnd() {
+    if (userInput.length > 29 && !won) {
+      winMessage.innerHTML = `You lost! The word is ${randomWord}`;
+    } else {
+      return;
+    }
   }
 
   function clearButton(event) {
