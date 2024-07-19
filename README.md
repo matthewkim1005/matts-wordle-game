@@ -26,7 +26,9 @@ Future Enhancements:
 
 Screenshot/Logo: A screenshot of your app or a logo.
 
-Getting started: Include a link to your deployed game and any instructions you deem important. This should also contain a link to your planning materials.
+![Wordle!](https://gyazo.com/9646a877ba8b333e9be2cf4e96236d44)
+
+Link: https://matthewkim1005.github.io/matts-wordle-game/
 
 As a user, I want to be able to know how to play this game without any prior knowledge of the game.
 As a user, I want visual feedback on what letters I get correct, wrong and if the word contains the letter.
