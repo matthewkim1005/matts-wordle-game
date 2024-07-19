@@ -26,7 +26,7 @@ Future Enhancements:
 
 Screenshot/Logo: A screenshot of your app or a logo.
 
-![Wordle!](https://github.com/matthewkim1005/matts-wordle-game/blob/main/Screen%20Shot%202024-07-19%20at%208.30.26%20AM.png)
+![Wordle!](https://github.com/user-attachments/assets/28a29a22-fc93-4365-9a5c-507564ec52b8)
 
 Link: https://matthewkim1005.github.io/matts-wordle-game/
 
